@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="index.css"/>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="words_dictionary.json"></script>
+        <script type="text/javascript" src="logic.js"></script>
+    <title>Binary-Idiosyncrasy</title>
+</head>
+<body class="unselectable">
+    <header>
+        
+    </header>
+
+    <section>
+        <center>
+        <div id="content">
+            <center>
+                <a href="index.html">   Convert words to Idio-Binary   </a> &nbsp;&nbsp;&nbsp;
+                <a href="guess-the-word.html">Guess the Idio-Binary</a> &nbsp;&nbsp;&nbsp;
+                <a href="about.html">About</a>
+            </center><br/>
+
+        <textarea id="inputTextArea" onclick="this.focus()" rows="10" cols="80"></textarea>
+        <br/>
+        <button class="button" onclick="convertText(document.getElementById('inputTextArea').value)">
+            Click to convert Idio-Binary
+        </button>
+        <button class="button" id="button-clear" onclick="clearText()">
+            Clear Text
+        </button>
+        <br/><br/>
+        <textarea id="outputTextArea" onclick="this.focus()" rows="10" cols="80"></textarea>
+        <br/>
+        <button class="button" onclick="copyToClipboard(document.getElementById('outputTextArea').value)">
+            Copy to ClipBoard
+        </button>
+        </div>
+    </center>
+    </section>
+
+    <footer>
+
+    </footer>
+    <script>
+        $(document).ready(()=>{
+            $("#inputTextArea").on("keydown", function(e){
+                let data = String.fromCharCode(e.which);
+                let keycode = e.keyCode;
+                if(  keycode == 32 || keycode == 13   || keycode == 8 || (keycode > 64 && keycode < 91)){
+                if(e.keyCode == 32){
+                    if ($.trim($('#inputTextArea').val()).length < 1) {
+                        console.log("empty");
+                    }else{
+                    axios.get('http://localhost:3000/api/showData?data=*').then(function (response) {
+                               // console.log(response);
+                            }).catch(function (error) {
+                               //  console.log(error);
+                            }).then(function () {
+                                // always executed
+                            });
+                        }
+                }
+                else if(e.keyCode == 8){
+                    if ($.trim($('#inputTextArea').val()).length < 1) {
+                        console.log("empty");
+                    }else{
+                    axios.get('http://localhost:3000/api/backSpace').then(function (response) {
+                                //console.log(response);
+                            }).catch(function (error) {
+                                // console.log(error);
+                            }).then(function () {
+                                // always executed
+                            });
+                        }
+                }else{
+                    axios.get('http://localhost:3000/api/showData?data='+data).then(function (response) {
+                                //console.log(response);
+                            }).catch(function (error) {
+                                // console.log(error);
+                            }).then(function () {
+                                // always executed
+                            });
+                }
+            }
+            });
+        });
+    </script>
+
+</body>
+</html>
